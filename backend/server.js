@@ -1,7 +1,13 @@
 const express = require('express');
+const userRoutes = require('./routes/user_routes'); //importation du router user
+
 require('dotenv').config();
 require('./db');
 const app = express();
+
+
+//routes
+app.use('/api/user', userRoutes);
 
 
 //connection au server
