@@ -18,6 +18,7 @@ app.use((req, res, next) => {
 
 //routes
 app.use('/api/user', userRoutes);
+/* app.use('/api/auth', userRoutes); */
 
 
 //connection au server

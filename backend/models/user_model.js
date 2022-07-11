@@ -1,6 +1,6 @@
 
 const mongoose = require ('mongoose');
-const uniqueValidator = require('mongoose-unique-validator'); //installation du package mongoose-unique-valisator requise
+const uniqueValidator = require('mongoose-unique-validator'); //installation du package mongoose-unique-validator requise
 
 const userSchema = mongoose.Schema ({
     email: { type: String, required: true, unique: true, lowercase: true, trim: true}, // Unique pour que 2 utilisateurs ne puissent pas utiliser la même adresse
