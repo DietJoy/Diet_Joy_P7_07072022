@@ -10,7 +10,8 @@ exports.signup = async (req, res, next) => { // fonction assynchrone
       const user = new User ({ 
           email: req.body.email, // on utlise l'adresse fourni dans le corps de la requete
           password: hash, // avec le mot de passe hashé
-          pseudo: req.body.pseudo // on récupère le pseudo dans le corps de la requête
+          name: req.body.name, // on récupère le nom dans le corps de la requête
+          firstname : req.body.firstname // on récupère le prénom dans le corps de la requête
         });
       await user.save() // on utilise la méthode save pour enregistrer l'utilisateur dans la base de donnée
        res.status(201).json({ message: 'Utilisateur créé !' })
