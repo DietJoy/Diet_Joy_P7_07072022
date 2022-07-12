@@ -1,15 +1,13 @@
 Backend
 
 Je suis en train de :
-En tant que Utilisateur, je peux m inscrire avec mon adresse mail un mot de passe un nom et un prénom
 
 
 A Faire:
 En tant que Utilisateur je peux me deconnecter
 
 En tant que Utilisateur je peux voir les post et Mes post de façon antéchronologique
-En tant que Utilisateur je peux faire un post avec du texte
-En tant que Utilisateur je peux ajouter une image à mon post
+
 En tant que Utilisateur je peux liker un post 1 seule fois par post
 En tant que Utilisateur je peux modifier ou supprimer Mes post
 
@@ -20,4 +18,6 @@ En tant que Administrateur je peux supprimer des post
 
 Fait
 En tant que Utilisateur je peux me connecter
-
+En tant que Utilisateur, je peux m inscrire avec mon adresse mail un mot de passe un nom et un prénom
+En tant que Utilisateur je peux faire un post avec du texte
+En tant que Utilisateur je peux ajouter une image à mon post
