@@ -27,18 +27,17 @@ exports.signup = async (req, res, next) => { // fonction assynchrone
         if (!user) { // si on ne trouve pas de user
           return res.status(401).json({ error: 'Utilisateur non trouvé !' }); // erreur 401 non authorisée 
         }
-        bcrypt.compare(req.body.password, user.password) //user trouvé et utlisation de bcrypt pour comparer le mot de passe de la requete avec le hash enregistré dans le doc user
+        bcrypt.compare(req.body.password, user.password) //user trouvé et utilisation de bcrypt pour comparer le mot de passe de la requête avec le hash enregistré dans le doc user
           .then(valid => {
             if (!valid) { // boolean et comparaison fausse:
               return res.status(401).json({ error: 'Mot de passe incorrect !' }); // erreur 401 non authorisée
             }
-            res.status(200).json({ // comparaison Vrai et renvoi du token en json
+            res.status(200).json({ // renvoi du token en json
                 userId: user._id, 
                 token: jwt.sign( // Fonction sign de jsonwebtoken pour encoder le token
-                  { userId: user._id }, // user id encodé 
+                  { userId: user._id, isAdmin: false }, // stockage de l userId dans le paylod et initialisation de l admin à false
                   process.env.TOKEN_SECRET, // Chaine secrète
-                  { expiresIn: '12h' }, // expiration de session définie sur 12H
-                 { isAdmin: false } // par défaut les utilisateurs ne sont pas des admins
+                  { expiresIn: '12h' }, // expiration du token définie sur 12H
               )
             });
           })
