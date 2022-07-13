@@ -1,6 +1,6 @@
 const express = require('express');
 const userRoutes = require('./routes/user_routes'); //importation du router user
-const createPost = require('./routes/post_routes');
+const postRoutes = require('./routes/post_routes');
 
 const path = require('path'); // Importation path de node pour nous donner l'accès au chemin static
 
@@ -22,7 +22,7 @@ app.use((req, res, next) => {
 //routes
 app.use('/images', express.static(path.join(__dirname, 'images'))); // Ajout du chemin static vers le dossier images
 app.use('/api/user', userRoutes);
-app.use('/api/post', createPost);
+app.use('/api/post', postRoutes);
 
 
 //connection au server

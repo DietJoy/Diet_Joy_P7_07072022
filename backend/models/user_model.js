@@ -5,8 +5,8 @@ const uniqueValidator = require('mongoose-unique-validator'); //installation du 
 const userSchema = mongoose.Schema ({
     email: { type: String, required: true, unique: true, lowercase: true, trim: true}, // Unique pour que 2 utilisateurs ne puissent pas utiliser la même adresse
     password: { type : String, required: true, minLength: 6, trim: true},
-    name: { type: String, required: true, minLength: 2, maxLength: 30, unique: true, trim: true},
-    firstname :{ type: String, required: true, minLength: 2, maxLength: 30, unique: true, trim: true},
+    name: { type: String, required: true, minLength: 2, maxLength: 30, trim: true},
+    firstname :{ type: String, required: true, minLength: 2, maxLength: 30, trim: true},
     likes: { type: [String]},
 });
 
