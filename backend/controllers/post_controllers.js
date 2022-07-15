@@ -51,3 +51,34 @@ exports.getAllPosts = (req, res, next) => {
     .then((posts) => res.status(200).json(posts))
     .catch((error) => error.status(500).json({ error }));
 };
+
+
+//Supression d'un Post avec DELETE
+exports.deletePost = (req, res, next) => {
+  Post.findOne({ _id: req.params.id }) // on utilise l id que nous recevons en parametre pour acceder au Post qui est dans la BDD
+    .then(post => {
+    
+      if(post === null){ //si on ne trouve pas le post
+        return res.status(404).json({message: "Le post n'existe pas."})
+      }
+
+      if (post.userId !== req.auth.userId ) { // Vérification de sécurité : est ce que l'utilisateur qui a crée le post est différent de celui qui essaye de le supprimer?
+        return res.status(401).json({ message: " Vous n'avez pas le droit !"}) // Si l'user est différent renvoie d'une 401
+      }
+
+      if(post.imageUrl !== undefined){ // si il y a une image, on va la supprimer dans le dossier image
+        const filename = post.imageUrl.split('/images/')[1]; // on retrouve le post grâce à son segment /images/
+        fs.unlink(`images/${filename}`, (err) => { // fonction unlike du package fs pour supprimer le fichier que l on cherchait
+          if (err){
+            console.log(err)
+          }
+        })
+      }
+        
+      // suppression du post de la base de données
+      Post.deleteOne({ _id: req.params.id }) // on supprime le post
+        .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
+        .catch(error => res.status(400).json({ error }));
+    })
+    .catch(error => res.status(500).json({ error }));
+};
