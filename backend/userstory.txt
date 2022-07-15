@@ -1,12 +1,11 @@
 Backend
 
 Je suis en train de :
+En tant que Utilisateur je peux modifier ou supprimer Mes post
 
 A Faire:
 En tant que Utilisateur je peux me deconnecter
-
 En tant que Utilisateur je peux liker un post 1 seule fois par post
-En tant que Utilisateur je peux modifier ou supprimer Mes post
 
 En tant que Administrateur je peux modifier des post
 En tant que Administrateur je peux supprimer des post
