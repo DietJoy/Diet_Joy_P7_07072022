@@ -82,3 +82,67 @@ exports.deletePost = (req, res, next) => {
     })
     .catch(error => res.status(500).json({ error }));
 };
+
+//Modification du Post avec PUT
+exports.modifyPost = (req, res, next) => {
+console.log(req.body.text);
+  Post.findOne({ _id: req.params.id})
+    .then((post) => {
+      if (!post) { //si ce n'est pas le bon post
+        return res.status(404).json({ message: "Post non trouvé" });
+      }
+      if (post.userId !== req.auth.userId) {
+        // compare Userid de la bdb avec userId de la requete d'authentification
+        return res.status(403).json({ message: "Ce n'est pas votre post" });
+      }
+
+      const postData = { //autenthification de l'utilisateur et récupération des données initiales sur les likes pour éviter une modif des ces données
+        userId: req.auth.userId,
+        likes: post.likes,
+        usersLiked: post.usersLiked,
+        text: req.body.text
+      };
+
+      if(req.file){ // Si on upload une nouvelle image lors de la modification, on la prend en compte
+        postData.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //on concatène et on reconstruit l url complète du fichier enregistré
+      }
+
+      Post.updateOne({ _id: req.params.id }, { ...postData, _id: req.params.id }) //on met à jour
+        .then(() => {
+          if(req.file){
+            fs.unlink("images/" + post.imageUrl.split("/images/")[1], err => { //on supprime l'image qu'on avait initialement publiée du dossier image
+              if (err) console.log({errfirst: err}) ;
+            });
+          }
+          res.status(200).json({ message: 'Post modifié !' });
+        })
+        .catch(error => {
+          if (req.file) { // Si il y avait une image dans la tentative de publication qui a échouée
+            console.log({error: "images/" + req.file.filename})
+            fs.unlink("images/" + req.file.filename, err => { // on supprime l'image qu on a tenté de publier qui s est automatiquement enregistrée dans le dossier images
+              if (err) console.log({errsecond: err});
+            });
+          }
+
+          res.status(400).json({ error });
+        });
+    })
+    .catch(err => res.status(400).json(err))
+};
+
+// Suppression de l'image seule d'un post avec la méthode Delete
+exports.deletePostImage = (req, res) => { //requête pour supprimer uniquement l image du post
+  Post.findOne({ _id: req.params.id}) // on retrouve le post
+    .then(post => {
+      if(!post.imageUrl){ // Si il n y a pas d image
+        return res.status(404).json({ message: "Ce post ne contient pas d'image" })
+      }
+      const postImageSplit = post.imageUrl.split("/images/")[1] // découpage de l'adresse de l'image pour la lisibilité sur la ligne suivante
+      fs.unlink("images/" + postImageSplit, err => { // on supprime l'image 
+        if (err) console.log(err);
+      });
+
+      res.status(201).json({ message: "L'image a été supprimée du post" })
+    })
+    .catch(err => res.status(400).json(err))
+}
