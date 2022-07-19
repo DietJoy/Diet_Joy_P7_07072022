@@ -54,95 +54,89 @@ exports.getAllPosts = (req, res, next) => {
 
 
 //Supression d'un Post avec DELETE
-exports.deletePost = (req, res, next) => {
-  Post.findOne({ _id: req.params.id }) // on utilise l id que nous recevons en parametre pour acceder au Post qui est dans la BDD
-    .then(post => {
-    
-      if(post === null){ //si on ne trouve pas le post
-        return res.status(404).json({message: "Le post n'existe pas."})
-      }
+exports.deletePost = async (req, res, next) => {
+  
+  try{
+    const post = await Post.findOne({ _id: req.params.id }) // on utilise l id que nous recevons en parametre pour acceder au Post qui est dans la BDD
 
-      if (post.userId !== req.auth.userId ) { // Vérification de sécurité : est ce que l'utilisateur qui a crée le post est différent de celui qui essaye de le supprimer?
-        return res.status(401).json({ message: " Vous n'avez pas le droit !"}) // Si l'user est différent renvoie d'une 401
-      }
+    if(post === null){ //si on ne trouve pas le post
+      return res.status(404).json({message: "Le post n'existe pas."})
+    }
 
-      if(post.imageUrl !== undefined){ // si il y a une image, on va la supprimer dans le dossier image
-        const filename = post.imageUrl.split('/images/')[1]; // on retrouve le post grâce à son segment /images/
-        fs.unlink(`images/${filename}`, (err) => { // fonction unlike du package fs pour supprimer le fichier que l on cherchait
-          if (err){
-            console.log(err)
-          }
-        })
-      }
-        
-      // suppression du post de la base de données
-      Post.deleteOne({ _id: req.params.id }) // on supprime le post
-        .then(() => res.status(200).json({ message: 'Publication supprimée !'}))
-        .catch(error => res.status(400).json({ error }));
-    })
-    .catch(error => res.status(500).json({ error }));
+    const user = await User.findOne({_id: req.auth.userId}) // on cherche l'utilisateur qui a posté
+
+    if ((post.userId !== req.auth.userId) && user.isAdmin === false) { // si le post n'appartient pas à l'utilisateur faisant la requête ou alors si il n'a pas les droits administrateur on renvoie un code 403
+        return res.status(401).json({ message: "Vous n'avez pas les droits de suppression sur ce post !" });
+    }
+
+    if(post.imageUrl !== undefined){ // si il y a une image, on va la supprimer dans le dossier image
+      const filename = post.imageUrl.split('/images/')[1]; // on retrouve le post grâce à son segment /images/
+      fs.unlink(`images/${filename}`, (err) => { // fonction unlike du package fs pour supprimer le fichier que l on cherchait
+        if (err){
+          console.log(err)
+        }
+      })
+    }
+
+    // suppression du post de la base de données
+    await Post.deleteOne({ _id: req.params.id }) // on supprime le post
+    res.status(200).json({ message: 'Publication supprimée !'})
+  }
+  catch(err){
+    res.status(500).json({ error })
+  } 
 };
 
 //Modification du Post avec PUT
-exports.modifyPost = (req, res, next) => {
-console.log(req.body.text);
-  Post.findOne({ _id: req.params.id})
-    .then((post) => {
-      if (!post) { //si ce n'est pas le bon post
-        return res.status(404).json({ message: "Post non trouvé" });
-      }
-      if (post.userId !== req.auth.userId) {
-        // compare Userid de la bdb avec userId de la requete d'authentification
-        return res.status(403).json({ message: "Ce n'est pas votre post" });
-      }
+exports.modifyPost =  async (req, res, next) => {
 
-      const postData = { //autenthification de l'utilisateur et récupération des données initiales sur les likes pour éviter une modif des ces données
+  try{
+    const post = await Post.findOne({ _id: req.params.id}) // on cherche le post
+
+    if (!post) { //si ce n'est pas le bon post
+        return res.status(404).json({ message: "Post non trouvé" });
+    }
+
+    const user = await User.findOne({_id: req.auth.userId}) // on cherche l'utilisateur qui a posté
+
+    if ((post.userId !== req.auth.userId) && user.isAdmin === false) { // si le post n'appartient pas à l'utilisateur faisant la requête ou alors si il n'a pas les droits administrateur on renvoie un code 403
+        return res.status(403).json({ message: "Vous n'avez pas les droits de modification sur ce post !" });
+    }
+
+    const postData = { //autenthification de l'utilisateur et récupération des données initiales sur les likes pour éviter une modif des ces données
         userId: req.auth.userId,
         likes: post.likes,
         usersLiked: post.usersLiked,
         text: req.body.text
-      };
+    };
 
-      if(req.file){ // Si on upload une nouvelle image lors de la modification, on la prend en compte
+    if(req.file){ // Si on upload une nouvelle image lors de la modification, on la prend en compte
         postData.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //on concatène et on reconstruit l url complète du fichier enregistré
-      }
+    }
+      
+    if ( post.imageUrl && !req.file) { // si il y a une image dans le post mais pas dans la requete
+        postData.imageUrl = null // dans la bdd le champ est null concernant l image
+    } 
 
-      Post.updateOne({ _id: req.params.id }, { ...postData, _id: req.params.id }) //on met à jour
-        .then(() => {
-          if(req.file){
-            fs.unlink("images/" + post.imageUrl.split("/images/")[1], err => { //on supprime l'image qu'on avait initialement publiée du dossier image
-              if (err) console.log({errfirst: err}) ;
-            });
-          }
-          res.status(200).json({ message: 'Post modifié !' });
-        })
-        .catch(error => {
-          if (req.file) { // Si il y avait une image dans la tentative de publication qui a échouée
-            console.log({error: "images/" + req.file.filename})
-            fs.unlink("images/" + req.file.filename, err => { // on supprime l'image qu on a tenté de publier qui s est automatiquement enregistrée dans le dossier images
-              if (err) console.log({errsecond: err});
-            });
-          }
+    await Post.updateOne({ _id: req.params.id }, { ...postData, _id: req.params.id }) //on met à jour
+        
+    if(req.file || ( post.imageUrl && !req.file)){
+      fs.unlink("images/" + post.imageUrl.split("/images/")[1], err => { //on supprime l'image qu'on avait initialement publiée du dossier image
+        if (err) console.log({errfirst: err}) ;
+      });
+    }
+          
+    res.status(200).json({ message: 'Post modifié !' });
+  }
+  catch(err){
+    if (req.file) { // Si il y avait une image dans la tentative de publication qui a échouée
+      console.log({error: "images/" + req.file.filename})
+      fs.unlink("images/" + req.file.filename, err => { // on supprime l'image qu on a tenté de publier qui s est automatiquement enregistrée dans le dossier images
+        if (err) console.log({errsecond: err});
+      });
+    }
 
-          res.status(400).json({ error });
-        });
-    })
-    .catch(err => res.status(400).json(err))
+    res.status(400).json({ error });
+  }      
 };
 
-// Suppression de l'image seule d'un post avec la méthode Delete
-exports.deletePostImage = (req, res) => { //requête pour supprimer uniquement l image du post
-  Post.findOne({ _id: req.params.id}) // on retrouve le post
-    .then(post => {
-      if(!post.imageUrl){ // Si il n y a pas d image
-        return res.status(404).json({ message: "Ce post ne contient pas d'image" })
-      }
-      const postImageSplit = post.imageUrl.split("/images/")[1] // découpage de l'adresse de l'image pour la lisibilité sur la ligne suivante
-      fs.unlink("images/" + postImageSplit, err => { // on supprime l'image 
-        if (err) console.log(err);
-      });
-
-      res.status(201).json({ message: "L'image a été supprimée du post" })
-    })
-    .catch(err => res.status(400).json(err))
-}

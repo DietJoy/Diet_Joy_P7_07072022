@@ -6,6 +6,9 @@ require('dotenv').config()
 exports.signup = async (req, res, next) => { // fonction assynchrone 
     /*console.log(req.body);*/
     try {
+      if ( !req.body.email || !req.body.password || !req.body.name || !req.body.firstname ) {
+        return res.status(404).json ({ error: 'Veuillez remplir le champ'})
+      }
       const hash = await bcrypt.hash(req.body.password, 13) // hashage du mot de passe recupéré par le corps de la requete du frontend et salé 13 fois : 1sec
       const user = new User ({ 
           email: req.body.email, // on utlise l'adresse fourni dans le corps de la requete
@@ -35,7 +38,7 @@ exports.signup = async (req, res, next) => { // fonction assynchrone
             res.status(200).json({ // renvoi du token en json
                 userId: user._id, 
                 token: jwt.sign( // Fonction sign de jsonwebtoken pour encoder le token
-                  { userId: user._id, isAdmin: false }, // stockage de l userId dans le paylod et initialisation de l admin à false
+                  { userId: user._id }, // stockage de l userId dans le paylod 
                   process.env.TOKEN_SECRET, // Chaine secrète
                   { expiresIn: '12h' }, // expiration du token définie sur 12H
               )
@@ -45,4 +48,4 @@ exports.signup = async (req, res, next) => { // fonction assynchrone
       })
       .catch(error => res.status(500).json({ error })); // erreur serveur
 };
-  
+
