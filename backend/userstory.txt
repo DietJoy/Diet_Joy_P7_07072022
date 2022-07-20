@@ -1,10 +1,5 @@
 Backend
 
-Je suis en train de :
-En tant que Utilisateur je peux liker un post 1 seule fois par post
-
-A Faire:
-
 Fait
 En tant que Utilisateur je peux me connecter
 En tant que Utilisateur, je peux m inscrire avec mon adresse mail un mot de passe un nom et un prénom
@@ -15,6 +10,7 @@ En tant que Utilisateur je peux modifier mon post avec ou sans image
 En tant que Utilisateur je peux supprimer mes post , image seulement ou post complet
 En tant que Administrateur je peux modifier des post
 En tant que Administrateur je peux supprimer des post
+En tant que Utilisateur je peux liker un post 1 seule fois par post
 
 
 Frontend

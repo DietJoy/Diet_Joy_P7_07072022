@@ -80,6 +80,7 @@ exports.deletePost = async (req, res, next) => {
 
     // suppression du post de la base de données
     await Post.deleteOne({ _id: req.params.id }) // on supprime le post
+
     res.status(200).json({ message: 'Publication supprimée !'})
   }
   catch(err){
@@ -140,3 +141,37 @@ exports.modifyPost =  async (req, res, next) => {
   }      
 };
 
+//Gestion des Likes et retour neutre
+exports.likePost = async (req, res, next) => {
+
+  const tokenUserId = req.auth.userId; // constante d'authentification d'utilisateur valable partout
+
+  const post = await Post.findOne({ _id: req.params.id });
+  console.log("🚀 ~ file: post_controllers.js ~ line 150 ~ exports.likePost= ~ post", post)
+  const hasUserLiked = post.usersLiked.includes(tokenUserId); // Si l'utlisateur authentifié a liké
+  console.log("🚀 ~ file: post_controllers.js ~ line 152 ~ exports.likePost= ~ hasUserLiked", hasUserLiked)
+
+  try {
+    switch (req.body.like) {
+     case 1: //cas du like
+     
+        if (hasUserLiked === false) { //si l'utilisateur n a pas déjà liké
+          await Post.updateOne({ _id: req.params.id }, { $push: { usersLiked: tokenUserId }, $inc: { likes: +1 } }); // on push dans le tableau et incrémente un like avec l'incopérateur 
+        }
+
+        return res.status(200).json({ message: "Vous aimez ce Post" }); 
+
+      case 0: //cas neutre
+      
+        if (hasUserLiked) { //si l'utilisateur veut retirer son like
+          await Post.updateOne({ _id: req.params.id }, { $pull: { usersLiked: tokenUserId }, $inc: { likes: -1 } }); //on retire un like du compteur et du tableau
+        }
+
+        return res.status(200).json({ message: "Je n'ai plus d'avis sur ce Post." });
+    }
+  }
+  catch (err) {
+    return res.status(400).json(err); 
+  }
+
+};
