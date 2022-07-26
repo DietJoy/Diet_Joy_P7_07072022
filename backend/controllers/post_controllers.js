@@ -21,17 +21,15 @@ exports.createPost = async (req, res, next) => {
     }
 
     try{
-      const post = new Post(userPost);// Création du post basé sur le post-modele de mongoose
-      const savedPost = await post.save() //enregistrement du post dans la BDD
+ 
       const userWhoPosted = await User.findOne({ _id: tokenUserId})  //recherche de l'utilisateur qui correspond au post qui vient d etre publié via l user id authentifié
 
-      const postAssociatedUser = { // Création d'un objet qui regroupe le post et l'utilisateur 
-        ...savedPost.toJSON(), // on récupère toutes les infos du post et on    ajoute :
-        postUsername: userWhoPosted.name,  // Création des clés nom et prénom de l'utilisateur qu on a trouvé
-        postFirstname: userWhoPosted.firstname, // dans l'idée de récup nom et prénom pour envoie plus tard dans le front
-      }
+      userPost.author = `${userWhoPosted.firstname} ${userWhoPosted.name}` // insertion du prénom et du nom dans la clé Author
 
-      res.status(201).json(postAssociatedUser) // objet renvoyé dans le front
+      const post = new Post(userPost);// Création du post basé sur le post-modele de mongoose
+      const savedPost = await post.save() //enregistrement du post dans la BDD
+
+      res.status(201).json(savedPost) // objet renvoyé dans le front
     }
     catch(error){
       res.status(400).json({ error });
