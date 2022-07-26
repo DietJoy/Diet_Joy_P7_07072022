@@ -1,12 +1,15 @@
 import React from 'react';
+import Login from '../components/Login';
 import Logo from '../components/Logo';
+import Signup from '../components/Signup';
 
 
 const Connexion = () => {
     return (
-        <div>
+        <div className='loginPage'>
             <Logo />
-            <h1> Signup et Login </h1>
+            <Login />
+            <Signup />
         </div>
     );
 };
