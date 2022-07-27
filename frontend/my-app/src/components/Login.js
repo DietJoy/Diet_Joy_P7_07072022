@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import {useState} from 'react';
 import axios from 'axios';
 
 const Login = (props) => {
@@ -23,6 +23,9 @@ const Login = (props) => {
 
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
+
+      window.location = "/accueil"
+
     } catch (err) {
       setError(err.response.data?.error || err.message);
     } // Affichage de mon message d'erreur prévu si il existe sinon l erreur renvoyé par l Api

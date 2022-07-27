@@ -11,7 +11,7 @@ useEffect(() => { // Le useEffect se joue lorsque le composant est monté
 const getPost = async() => {
     const res = await axios.get("http://localhost:3000/api/post/",   {
         headers: {
-         Authorization: "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmQ2YzFkYzMwNDcwNzE1NjZhN2VkM2MiLCJpYXQiOjE2NTg4Mjg2OTEsImV4cCI6MTY1ODg3MTg5MX0.xZtzh__r2VUUyUQ6z0PYnQqS-O8LaHfPCeqyAp9gHNI"
+         Authorization: "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MmQ2YzFkYzMwNDcwNzE1NjZhN2VkM2MiLCJpYXQiOjE2NTg5Mjk0OTgsImV4cCI6MTY1ODk3MjY5OH0._69vyXGlloqAyxeArKPob1eqNUt2KmW9IzjuncnFZLM"
        } // ne pas oublier l espace entre bearer et "
      })
     console.log("🚀 ~ file: Publications.js ~ line 17 ~ getPost ~ res", res) 
