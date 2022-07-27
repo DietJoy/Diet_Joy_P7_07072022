@@ -28,6 +28,32 @@ img {
 }
 }
 
+.login, .register{
+
+  h2{
+    text-align: center;
+    color: $primary;
+  }
+
+  form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  
+}
+
+input {
+background-color: #FFD7D7;
+}
+
+
+.show-login, .show-signup {
+  background-color: $primary,
+  
+}
+
 
 .publications{
   background-color: $secondary;

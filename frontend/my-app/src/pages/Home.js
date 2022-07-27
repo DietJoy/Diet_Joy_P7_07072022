@@ -10,7 +10,7 @@ const Home = () => {
             
             <Navigation />
             <Publications />
-            <h1> ACCUEIL </h1>
+            
         </div>
     );
 };
