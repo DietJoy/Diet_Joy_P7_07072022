@@ -12,7 +12,7 @@ const Post = (props) => {
     return (
         <div key={post._id} className="stylePost">
             <p> <h3>Posté par : {post.author} </h3>  </p>
-            <img src={post.imageUrl} />
+            <img src={post.imageUrl} alt="image de la publication"/>
             <p>{post.text}</p>
         </div>
     );
