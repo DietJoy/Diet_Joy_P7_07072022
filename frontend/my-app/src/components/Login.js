@@ -58,7 +58,7 @@ const Login = (props) => {
       <p>Vous n'avez pas de compte ? Veuillez vous inscrire</p>
       <button
         type="button"
-        class="show-signup"
+        className="show-signup"
         onClick={() => setShowSignup(true)}
       >
         Inscription

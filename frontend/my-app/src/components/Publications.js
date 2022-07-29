@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Post from './Post';
+import CreatPost from '../components/CreatPost';
 
 
 const Publications = () => {
@@ -25,6 +26,7 @@ const getPost = async() => {
     return (
         <div className="publications">
             <h1>Bienvenue sur votre réseau social d'entreprise ! </h1>
+            <CreatPost />
             <ul className='post-List'><input type="range" min="1" max="100" defaultValue={rangeValue} onChange={(e)=> setRangeValue(e.target.value)}  /></ul>
                 <ul> {posts.slice(0, rangeValue).map((post)=> ( 
                 <Post post={post}/> // passage des données du post en props du composant Post

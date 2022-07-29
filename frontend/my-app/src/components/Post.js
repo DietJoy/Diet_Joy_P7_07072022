@@ -1,7 +1,6 @@
 import React from 'react';
 
-// Création de mon modèle de Post pour qu'il soit récupéré dans Publication.js
-
+// Données des posts récupérées dans Publication.js
 
 const Post = (props) => {
 
@@ -11,7 +10,7 @@ const Post = (props) => {
 
     return (
         <div key={post._id} className="stylePost">
-            <p> <h3>Posté par : {post.author} </h3>  </p>
+            <h3>Posté par : {post.author} </h3>
             <img src={post.imageUrl} alt="image de la publication"/>
             <p>{post.text}</p>
         </div>
@@ -19,3 +18,6 @@ const Post = (props) => {
 };
 
 export default Post;
+
+
+

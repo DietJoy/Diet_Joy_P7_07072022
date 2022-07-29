@@ -168,3 +168,14 @@ input[type=range]:focus::-ms-fill-lower {
 input[type=range]:focus::-ms-fill-upper {
   background: $primary;
 }
+/* Fin barre slide */
+
+.CreatPostContainer{
+  border: 3px $primary ;
+  height: 200px;
+  border-radius: 5px 5px;
+  background-color: $primary;
+  gap: 8px;
+  margin: 8px;
+  padding: 10px
+}
