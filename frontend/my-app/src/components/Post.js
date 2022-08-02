@@ -6,12 +6,12 @@ const Post = (props) => {
 
     const post = props.post
 
-    console.log(props)
-
     return (
-        <div key={post._id} className="stylePost">
+        <div className="stylePost">
             <h3>Posté par : {post.author} </h3>
-            <img src={post.imageUrl} alt="image de la publication"/>
+            {post.imageUrl 
+                ? <img src={post.imageUrl} alt="image de la publication"/> 
+                : null} {/* si le post contient une image on l'affiche sinon on montre rien */}
             <p>{post.text}</p>
         </div>
     );

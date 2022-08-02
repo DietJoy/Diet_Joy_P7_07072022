@@ -172,7 +172,7 @@ input[type=range]:focus::-ms-fill-upper {
 
 .CreatPostContainer{
   border: 3px $primary ;
-  height: 200px;
+  min-height: 200px;
   border-radius: 5px 5px;
   background-color: $primary;
   gap: 8px;

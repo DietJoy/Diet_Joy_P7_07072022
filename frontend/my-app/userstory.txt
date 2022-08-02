@@ -2,19 +2,17 @@
 Frontend
 
 En cours:
-En tant que Utilisateur je peux me connecter
-En tant que Utilisateur je peux me deconnecter
+En tant que Utilisateur je peux faire un post avec du texte, avec ou sans image
+En tant que Utilisateur je peux faire un post avec une image, avec ou sans texte
 
 
 Fait:
 En tant que Utilisateur, je peux m inscrire avec mon adresse mail un mot de passe un nom et un prénom
-
+En tant que Utilisateur je peux me connecter
+En tant que Utilisateur je peux me deconnecter
 
 A faire:
 
-
-En tant que Utilisateur je peux faire un post avec du texte, avec ou sans image
-En tant que Utilisateur je peux faire un post avec une image, avec ou sans texte
 En tant que Utilisateur je peux voir les post et Mes post de façon antéchronologique
 En tant que Utilisateur je peux modifier mon post avec ou sans image
 En tant que Utilisateur je peux supprimer mes post , image seulement ou post complet

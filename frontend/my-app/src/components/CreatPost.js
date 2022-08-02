@@ -1,29 +1,45 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { getPost } from '../apiCalls';
 
+const CreatPost = (props) => {
 
-const CreatPost = () => {
+const { setPosts } = props
+
 const [postPicture, setPostPicture]= useState(""); // affichage de l image dans le front
 const [postText, setPostText]= useState("");
-const [file, setFile] = useState(); // à utliser pour l envoi de l image dans la bdd ??
-const [error, setError] = useState('');
+const [file, setFile] = useState(""); // à utliser pour l envoi de l image dans la bdd ??
+const [error, setError] = useState("");
 
 
-const handlePost = async (data)=> {
+const handlePost = async (event)=> {
+    event.preventDefault()
    
 try{
     if ( postText || postPicture){ 
         const data = new FormData();
-        data.append('userId', data._id);
         data.append('text', postText);
-        if (file) data.append("imageUrl", file);
+        data.append("image", file);
+
+        const res = await axios.post ('http://localhost:3000/api/post', data , {
+            headers: {
+                "Authorization": `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "multipart/form-data"
+              }
+        });
+        // setPosts(res.post)
+        // const newPost = res.data
+
+        // setPosts(previousPosts => {
+        //     console.log({previousPosts})
+        //     previousPosts.unshift(newPost)
+        //     console.log({previousPosts})
+        //     return previousPosts
+        // })
+
+        const posts = await getPost()
+        setPosts(posts)
     };
-    const res = await axios.post ('http://localhost:3000/api/post',{ 
-        data
-
-});
-console.log(res);   
-
 } catch (err) {
     setError(err.response.data?.error || err.message);
     }
@@ -39,9 +55,15 @@ const cancelPost = () => { //fonction qui annulera la rédaction du post
     setPostPicture("")
     setPostText("")
 };
+
     return (
+        <form onSubmit={handlePost}>
         <div className='CreatPostContainer'>
+        {postPicture
+                ? <img src={postPicture} alt="image de la publication" /> 
+                : null} {/* si le post contient une image on l'affiche sinon on montre rien */}
             <div className='PostForm'>
+
                <textarea 
                name="text"
                id="text"
@@ -51,20 +73,25 @@ const cancelPost = () => { //fonction qui annulera la rédaction du post
                />  
             </div>
             <div className='PostImage'>
-                <i class="fa-solid fa-image"></i>
+                <i className="fa-solid fa-image"></i>
                 <input type="file" 
                 id="file-upload" 
                 name="imageUrl" 
                 accept='.jpg, .jpeg, .png '
                 onChange={(e) => handlePicture(e)} 
-                value={postPicture} 
+                // value={postPicture} 
                 />
+    
             </div>
+
             <div className='btnSend'>
                 { postText || postPicture ? ( <button className='cancel' onClick={cancelPost}>Annuler</button>) : null} {/*si il y a une image et un text on permet d annuler la saisi via un bouton */}
-            <button className='send' onClick={handlePost & handlePicture}>Envoyer</button>
+            <button className='send' type="submit">Envoyer</button>
             </div>
+            <small>{error}</small>{' '}
+        {/* message d erreur qui s affiche si il y en a une */}
         </div>
+        </form>
     );
 
 
