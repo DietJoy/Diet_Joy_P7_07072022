@@ -8,7 +8,7 @@ const { setPosts } = props
 
 const [postPicture, setPostPicture]= useState(""); // affichage de l image dans le front
 const [postText, setPostText]= useState("");
-const [file, setFile] = useState(""); // à utliser pour l envoi de l image dans la bdd ??
+const [file, setFile] = useState(""); // à utliser pour l envoi de l image dans la bdd 
 const [error, setError] = useState("");
 
 
@@ -27,16 +27,7 @@ try{
                 "Content-Type": "multipart/form-data"
               }
         });
-        // setPosts(res.post)
-        // const newPost = res.data
-
-        // setPosts(previousPosts => {
-        //     console.log({previousPosts})
-        //     previousPosts.unshift(newPost)
-        //     console.log({previousPosts})
-        //     return previousPosts
-        // })
-
+      
         const posts = await getPost()
         setPosts(posts)
     };
@@ -45,15 +36,16 @@ try{
     }
 };
 
-const handlePicture = (e) => {//fonction qui enverra l image dans la bdd au clic du bouton 
-setPostPicture(URL.createObjectURL(e.target.files[0]));
-setFile(e.target.files[0]);
+const handlePicture = (e) => {//fonction qui permet la prévisualisation de l image au clic du bouton 
+setPostPicture(URL.createObjectURL(e.target.files[0])); // prévisualisation de la photo en front
+setFile(e.target.files[0]); // fichier file prêt à être envoyé dans la bdd
 }; 
 
 
 const cancelPost = () => { //fonction qui annulera la rédaction du post
     setPostPicture("")
     setPostText("")
+    setFile(null)
 };
 
     return (
@@ -62,8 +54,8 @@ const cancelPost = () => { //fonction qui annulera la rédaction du post
         {postPicture
                 ? <img src={postPicture} alt="image de la publication" /> 
                 : null} {/* si le post contient une image on l'affiche sinon on montre rien */}
-            <div className='PostForm'>
 
+            <div className='PostForm'>
                <textarea 
                name="text"
                id="text"
@@ -72,6 +64,7 @@ const cancelPost = () => { //fonction qui annulera la rédaction du post
                value= {postText}
                />  
             </div>
+
             <div className='PostImage'>
                 <i className="fa-solid fa-image"></i>
                 <input type="file" 
@@ -79,9 +72,7 @@ const cancelPost = () => { //fonction qui annulera la rédaction du post
                 name="imageUrl" 
                 accept='.jpg, .jpeg, .png '
                 onChange={(e) => handlePicture(e)} 
-                // value={postPicture} 
                 />
-    
             </div>
 
             <div className='btnSend'>
@@ -93,7 +84,6 @@ const cancelPost = () => { //fonction qui annulera la rédaction du post
         </div>
         </form>
     );
-
 
 };
 export default CreatPost ;
