@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { getPost } from '../apiCalls';
+import { IcSharpImage } from '../assets/imageIcone';
 
 const CreatPost = (props) => {
 
 const { setPosts } = props
+
+const formRef = useRef(null)
+
 
 const [postPicture, setPostPicture]= useState(""); // affichage de l image dans le front
 const [postText, setPostText]= useState("");
@@ -27,11 +31,12 @@ try{
                 "Content-Type": "multipart/form-data"
               }
         });
-      
+        resetPost()
         const posts = await getPost()
         setPosts(posts)
     };
-} catch (err) {
+} 
+catch (err) {
     setError(err.response.data?.error || err.message);
     }
 };
@@ -42,14 +47,15 @@ setFile(e.target.files[0]); // fichier file prêt à être envoyé dans la bdd
 }; 
 
 
-const cancelPost = () => { //fonction qui annulera la rédaction du post
+const resetPost = () => { //fonction qui annulera la rédaction du post 
     setPostPicture("")
     setPostText("")
-    setFile(null)
+    setFile("")
+    formRef.current.reset()
 };
 
     return (
-        <form onSubmit={handlePost}>
+        <form onSubmit={handlePost} ref={formRef}>
         <div className='CreatPostContainer'>
         {postPicture
                 ? <img src={postPicture} alt="image de la publication" /> 
@@ -66,7 +72,7 @@ const cancelPost = () => { //fonction qui annulera la rédaction du post
             </div>
 
             <div className='PostImage'>
-                <i className="fa-solid fa-image"></i>
+                <IcSharpImage />
                 <input type="file" 
                 id="file-upload" 
                 name="imageUrl" 
@@ -76,7 +82,7 @@ const cancelPost = () => { //fonction qui annulera la rédaction du post
             </div>
 
             <div className='btnSend'>
-                { postText || postPicture ? ( <button className='cancel' onClick={cancelPost}>Annuler</button>) : null} {/*si il y a une image et un text on permet d annuler la saisi via un bouton */}
+                { postText || postPicture ? ( <button className='cancel' onClick={resetPost}>Annuler</button>) : null} {/*si il y a une image et un text on permet d annuler la saisi via un bouton */}
             <button className='send' type="submit">Envoyer</button>
             </div>
             <small>{error}</small>{' '}
