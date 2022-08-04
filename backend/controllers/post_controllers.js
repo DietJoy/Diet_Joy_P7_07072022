@@ -89,6 +89,8 @@ exports.deletePost = async (req, res, next) => {
 //Modification du Post avec PUT
 exports.modifyPost =  async (req, res, next) => {
 
+  console.log(req.body)
+
   try{
     const post = await Post.findOne({ _id: req.params.id}) // on cherche le post
 
@@ -109,17 +111,23 @@ exports.modifyPost =  async (req, res, next) => {
         text: req.body.text
     };
 
+    console.log(postData)
+
+    if(!req.body?.text){ //si le champ text du formdata n'existe pas, on met un texte vide
+      postData.text = ""
+    }
+
     if(req.file){ // Si on upload une nouvelle image lors de la modification, on la prend en compte
         postData.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //on concatène et on reconstruit l url complète du fichier enregistré
     }
       
-    if ( post.imageUrl && !req.file) { // si il y a une image dans le post mais pas dans la requete
-        postData.imageUrl = null // dans la bdd le champ est null concernant l image
-    } 
+    // if ( post.imageUrl && !req.file) { // si il y a une image dans le post mais pas dans la requete
+    //     postData.imageUrl = null // dans la bdd le champ est null concernant l image
+    // } 
 
     await Post.updateOne({ _id: req.params.id }, { ...postData, _id: req.params.id }) //on met à jour
         
-    if(req.file || ( post.imageUrl && !req.file)){
+    if(req.file /*|| ( post.imageUrl && !req.file)*/){
       fs.unlink("images/" + post.imageUrl.split("/images/")[1], err => { //on supprime l'image qu'on avait initialement publiée du dossier image
         if (err) console.log({errfirst: err}) ;
       });
@@ -135,7 +143,7 @@ exports.modifyPost =  async (req, res, next) => {
       });
     }
 
-    res.status(400).json({ error });
+    res.status(400).json({ err });
   }      
 };
 

@@ -9,3 +9,21 @@ export const getPost = async() => {
 
    return res.data
 }
+
+export const postPublication = async (data) => {
+  await axios.post ('http://localhost:3000/api/post', data , {
+      headers: {
+          "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "multipart/form-data"
+        }
+  });
+}
+
+export const updatePost = async (data, postId) => {
+  await axios.put(`http://localhost:3000/api/post/${postId}`, data, { 
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "multipart/form-data"
+    },
+  })
+}

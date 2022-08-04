@@ -2,6 +2,8 @@ import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { getPost } from '../apiCalls';
 import { IcSharpImage } from '../assets/imageIcone';
+import { postPublication } from '../apiCalls';
+
 
 const CreatPost = (props) => {
 
@@ -16,7 +18,7 @@ const [file, setFile] = useState(""); // à utliser pour l envoi de l image dans
 const [error, setError] = useState("");
 
 
-const handlePost = async (event)=> {
+const handleCreatePost = async (event)=> {
     event.preventDefault()
    
 try{
@@ -24,13 +26,8 @@ try{
         const data = new FormData();
         data.append('text', postText);
         data.append("image", file);
-
-        const res = await axios.post ('http://localhost:3000/api/post', data , {
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "multipart/form-data"
-              }
-        });
+       
+        await postPublication(data)
         resetPost()
         const posts = await getPost()
         setPosts(posts)
@@ -55,7 +52,7 @@ const resetPost = () => { //fonction qui annulera la rédaction du post
 };
 
     return (
-        <form onSubmit={handlePost} ref={formRef}>
+        <form onSubmit={handleCreatePost} ref={formRef}>
         <div className='CreatPostContainer'>
         {postPicture
                 ? <img src={postPicture} alt="image de la publication" /> 
