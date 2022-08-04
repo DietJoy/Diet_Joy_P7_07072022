@@ -10,7 +10,7 @@ const Navigation = () => {
         <div className='navigation'>
             <ul>
                 <NavLink to="/" onClick={clearStorage}>
-                    <li> Signup et loggin </li>
+                    <li className='deconnexion'> Déconnexion </li>
                 </NavLink>
             </ul>
         </div>

@@ -1,0 +1,15 @@
+.CreatPostContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 200px;
+    border-radius: 5px 5px;
+    background-color:$secondary;
+    gap: 10px;
+    margin: 8px;
+    padding: 10px
+  }
+
+  .send  {
+    background-color: $primary;
+  }

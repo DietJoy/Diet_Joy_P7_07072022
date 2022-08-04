@@ -1,7 +1,6 @@
 import React, {useState, useRef} from 'react';
 import {EosIconsContentModified} from '../assets/updateIcone';
-import {getPost, updatePost} from '../apiCalls';
-import { RiDeleteBin6Fill } from '../assets/deleteIcone';
+
 import UpdatePost from './UpdatePost';
 // Données des posts récupérées dans Publication.js
 
@@ -26,21 +25,7 @@ const Post = (props) => {
             handlePosts={handlePosts}
             setIsUpdating={setIsUpdating}
         />
-        // <div className="updatePost">
-        //   <textarea
-        //     value={textUpdate}
-        //     onChange={(e) => setTextUpdate(e.target.value)}
-        //   />
-        //   <input type="file" onChange={handlePicture} ref={fileRef}/>
-        //   <div onClick={resetPostInputs}>
-        //     <RiDeleteBin6Fill />
-        //   </div>
-        //   <div className="buttonContainer">
-        //     <button className="btn" onClick={updateItem}>
-        //       Valider les modifications
-        //     </button>
-        //   </div>
-        // </div>
+       
       )}
       {post.userId === localStorage.getItem('userId') && (
         <div className="buttonContainer">
