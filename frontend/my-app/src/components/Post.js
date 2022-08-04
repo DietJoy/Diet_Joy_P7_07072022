@@ -12,21 +12,9 @@ const Post = (props) => {
 
   return (
     <div className="stylePost">
-      <h3>Posté par : {post.author} </h3>
-      {post.imageUrl 
-        ? <img src={post.imageUrl} alt="image de la publication" />
-        : null
-        }
-      {/* si le post contient une image on l'affiche sinon on montre rien */}
-      {isUpdating === false && <p>{post.text}</p>}
-      {isUpdating && (
-        <UpdatePost 
-            post={post}
-            handlePosts={handlePosts}
-            setIsUpdating={setIsUpdating}
-        />
-       
-      )}
+
+      <h3>Posté par : {post.author} 
+      
       {post.userId === localStorage.getItem('userId') && (
         <div className="buttonContainer">
           <div
@@ -36,6 +24,23 @@ const Post = (props) => {
           </div>
         </div>
       )}
+      
+      </h3>
+      {post.imageUrl 
+        ? <img className='ImagePost' src={post.imageUrl} alt="image de la publication" />
+        : null
+        }
+      {/* si le post contient une image on l'affiche sinon on montre rien */}
+      {isUpdating === false && <p className='textPost'>{post.text}</p>}
+      {isUpdating && (
+        <UpdatePost 
+            post={post}
+            handlePosts={handlePosts}
+            setIsUpdating={setIsUpdating}
+        />
+       
+      )}
+   
     </div>
   );
 };

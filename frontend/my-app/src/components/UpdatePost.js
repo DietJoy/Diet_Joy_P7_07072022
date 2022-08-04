@@ -15,6 +15,7 @@ const UpdatePost = (props) => {
   const resetPostInputs = () => {
     fileRef.current.value = ""
     setTextUpdate("")
+    setFile(null)
   }
 
   const handlePicture = (e) => {
@@ -48,9 +49,9 @@ const UpdatePost = (props) => {
         value={textUpdate}
         onChange={(e) => setTextUpdate(e.target.value)}
       />
-      <input type="file" onChange={handlePicture} ref={fileRef} />
       <div onClick={resetPostInputs}>
         <RiDeleteBin6Fill />
+        <input type="file" onChange={handlePicture} ref={fileRef} />
       </div>
       <div className="buttonContainer">
         <button className="btn" onClick={updateItem}>
