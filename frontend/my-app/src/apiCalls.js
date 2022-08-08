@@ -27,3 +27,11 @@ export const updatePost = async (data, postId) => {
     },
   })
 }
+
+export const deletePost = async (postId) => {
+  await axios.delete(`http://localhost:3000/api/post/${postId}`, { 
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+}

@@ -20,6 +20,10 @@ margin-bottom: 0px;
 }
 a{
   color: #FD2D01;
+  text-decoration: none;
+  &:hover{
+    text-decoration: underline #FD2D01;
+  }
 }
 
 h1 {
@@ -90,6 +94,18 @@ border: 3px groove red;
 border-radius: 5px 5px 0px 0px;
 }
 
+.icone {
+  &:hover{
+    cursor: pointer;
+    background-color: orange;
+    transition: 400ms ease-in-out;
+  }
+}
+
+.icone:nth-child(1){
+  margin-left: auto;
+}
+
 .stylePost {
   border-radius: 5px;
   background-color: $secondary;
@@ -110,9 +126,3 @@ border-radius: 5px 5px 0px 0px;
   align-items: center ;
 }
 
-#file-upload::-webkit-file-upload-button{
-  background-color: #FD2D01;
-  span {
-    display: none;
-  }
-}
