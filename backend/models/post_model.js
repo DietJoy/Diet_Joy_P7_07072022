@@ -6,7 +6,8 @@ const postSchema = mongoose.Schema({
     imageUrl: {type: String,}, // le contenu image de la publication si nécessaire
     likes: {type: Number, default: 0, required: true}, // Nombre d'utilisateurs qui likent la publication
     usersLiked: {type: [String], default: [], required: true}, // tableau des utilisateurs qui likent la publication
-    author: {type: String, required: true} // le nom et le prénom de l'utilisateur
+    author: {type: String, required: true}, // le nom et le prénom de l'utilisateur
+    deleteImage: {type: Boolean, default: false}
 });
 
 postSchema.set('timestamps', true);

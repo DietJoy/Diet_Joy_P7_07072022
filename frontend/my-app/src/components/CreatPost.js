@@ -1,5 +1,4 @@
 import React, { useState, useRef } from 'react';
-import axios from 'axios';
 import { getPost } from '../apiCalls';
 import { IcSharpImage } from '../assets/imageIcone';
 import { postPublication } from '../apiCalls';

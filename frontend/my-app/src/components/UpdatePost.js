@@ -1,6 +1,7 @@
 import {useRef, useState} from 'react';
-import {updatePost} from '../apiCalls';
+import {updatePost, deleteImagePost} from '../apiCalls';
 import { RiDeleteBin6Fill } from '../assets/deleteIcone';
+import { MaterialSymbolsReplay } from '../assets/resetIcone';
 
 import React from 'react';
 
@@ -8,7 +9,7 @@ const UpdatePost = (props) => {
 
   const {post, handlePosts, setIsUpdating} = props
 
-  const [textUpdate, setTextUpdate] = useState(post.text || null);
+  const [textUpdate, setTextUpdate] = useState(post.text || "");
   const [file, setFile] = useState(null);
   const fileRef = useRef(null)
 
@@ -27,6 +28,7 @@ const UpdatePost = (props) => {
   const updateItem = async () => {
     try {
       const data = new FormData();
+      console.log(data)
       if(textUpdate){
         data.append('text', textUpdate);
       }
@@ -43,14 +45,32 @@ const UpdatePost = (props) => {
     }
   };
 
+  const handleDeleteImage = async () => {
+      try{
+        await deleteImagePost(post._id)
+        setIsUpdating(false);
+        await handlePosts();
+      }
+      catch(err){
+        console.log(err)
+      }
+  }
+
   return (
     <div className="updatePost">
       <textarea
         value={textUpdate}
         onChange={(e) => setTextUpdate(e.target.value)}
       />
-      <div onClick={resetPostInputs}>
+      <button 
+        type="button" 
+        className="deleteImage"
+        onClick={handleDeleteImage}
+        >
         <RiDeleteBin6Fill />
+      </button>
+      <div onClick={resetPostInputs}>
+        <MaterialSymbolsReplay />
         <input type="file" onChange={handlePicture} ref={fileRef} />
       </div>
       <div className="buttonContainer">

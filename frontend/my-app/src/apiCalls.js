@@ -28,10 +28,30 @@ export const updatePost = async (data, postId) => {
   })
 }
 
+export const deleteImagePost = async(postId) => {
+  await axios.put(`http://localhost:3000/api/post/${postId}`, {
+    deleteImage: true
+  }, 
+  { 
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("token")}`
+    },
+  })
+}
+
 export const deletePost = async (postId) => {
   await axios.delete(`http://localhost:3000/api/post/${postId}`, { 
     headers: {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+}
+
+export const like = async (postId) => {
+  await axios.post(`http://localhost:3000/api/post/${postId}/like`, { 
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+      "like": 1
     },
   })
 }

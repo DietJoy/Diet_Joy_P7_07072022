@@ -1,16 +1,15 @@
-import React, {useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {EosIconsContentModified} from '../assets/updateIcone';
-import {RiDeleteBin6Fill} from '../assets/deleteIcone';
 
 import UpdatePost from './UpdatePost';
 import DeletePost from './DeletePost';
+
 // Données des posts récupérées dans Publication.js
 
 const Post = (props) => {
   const {post, handlePosts } = props;
 
   const [isUpdating, setIsUpdating] = useState(false);
-  //const [isDeleteIt, setIsDeleteIt] = useState;
 
 
   return (
@@ -33,7 +32,7 @@ const Post = (props) => {
       )}
       
       </h3>
-      {post.imageUrl 
+      {post.imageUrl
         ? <img className='ImagePost' src={post.imageUrl} alt="image de la publication" />
         : null
         }
@@ -47,7 +46,15 @@ const Post = (props) => {
         />
        
       )}
-   
+      {/* 
+      <div className='like'>
+      <LikePost 
+      post={post._id}
+      userId={post.usersLiked}
+      />
+    </div>
+      */}
+    
     </div>
   );
 };

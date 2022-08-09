@@ -89,7 +89,7 @@ exports.deletePost = async (req, res, next) => {
 //Modification du Post avec PUT
 exports.modifyPost =  async (req, res, next) => {
 
-  console.log(req.body)
+  console.log({reqBody: req.body})
 
   try{
     const post = await Post.findOne({ _id: req.params.id}) // on cherche le post
@@ -107,13 +107,16 @@ exports.modifyPost =  async (req, res, next) => {
     const postData = { //autenthification de l'utilisateur et récupération des données initiales sur les likes pour éviter une modif des ces données
         userId: req.auth.userId,
         likes: post.likes,
-        usersLiked: post.usersLiked,
-        text: req.body.text
+        usersLiked: post.usersLiked
     };
 
     console.log(postData)
 
-    if(!req.body?.text){ //si le champ text du formdata n'existe pas, on met un texte vide
+    if(req.body.text){
+      postData.text = req.body.text
+    }
+
+    if(!req.body.text && !req.body.deleteImage){ //si le champ text du formdata n'existe pas et qu on ne touche pas à l image, on met un texte vide
       postData.text = ""
     }
 
@@ -121,13 +124,14 @@ exports.modifyPost =  async (req, res, next) => {
         postData.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //on concatène et on reconstruit l url complète du fichier enregistré
     }
       
-    // if ( post.imageUrl && !req.file) { // si il y a une image dans le post mais pas dans la requete
-    //     postData.imageUrl = null // dans la bdd le champ est null concernant l image
-    // } 
+   if (req.body.deleteImage === true) { // est ce qu on veut supprimer l image du post
+       postData.imageUrl = null // dans la bdd le champ est null concernant l image
+    } 
 
-    await Post.updateOne({ _id: req.params.id }, { ...postData, _id: req.params.id }) //on met à jour
+    const update = await Post.updateOne({ _id: req.params.id }, { ...postData, _id: req.params.id }) //on met à
         
-    if(req.file /*|| ( post.imageUrl && !req.file)*/){
+    if(req.file  || req.body.deleteImage === true){ // si la requête contient une image ou alors si le champ deleteImage est true
+      console.log("req.file  || req.body.deleteImage === true")
       fs.unlink("images/" + post.imageUrl.split("/images/")[1], err => { //on supprime l'image qu'on avait initialement publiée du dossier image
         if (err) console.log({errfirst: err}) ;
       });
@@ -137,7 +141,7 @@ exports.modifyPost =  async (req, res, next) => {
   }
   catch(err){
     if (req.file) { // Si il y avait une image dans la tentative de publication qui a échouée
-      console.log({error: "images/" + req.file.filename})
+      console.log(err)
       fs.unlink("images/" + req.file.filename, err => { // on supprime l'image qu on a tenté de publier qui s est automatiquement enregistrée dans le dossier images
         if (err) console.log({errsecond: err});
       });

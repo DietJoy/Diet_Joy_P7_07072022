@@ -97,7 +97,7 @@ border-radius: 5px 5px 0px 0px;
 .icone {
   &:hover{
     cursor: pointer;
-    background-color: orange;
+    background-color: $primary;
     transition: 400ms ease-in-out;
   }
 }
@@ -126,3 +126,17 @@ border-radius: 5px 5px 0px 0px;
   align-items: center ;
 }
 
+.like {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  margin: 1%;
+}
+
+.iconeLike {
+  &:hover{
+    cursor: pointer;
+    background-color: $primary;
+    transition: 400ms ease-in-out;
+  }
+}
