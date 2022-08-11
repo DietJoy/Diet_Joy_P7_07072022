@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {EosIconsContentModified} from '../assets/updateIcone';
-
+import  LikePost  from '../components/LikePost'
 import UpdatePost from './UpdatePost';
 import DeletePost from './DeletePost';
 
@@ -32,12 +32,14 @@ const Post = (props) => {
       )}
       
       </h3>
+      <div className='imageEtTexte'>
       {post.imageUrl
         ? <img className='ImagePost' src={post.imageUrl} alt="image de la publication" />
         : null
         }
       {/* si le post contient une image on l'affiche sinon on montre rien */}
       {isUpdating === false && <p className='textPost'>{post.text}</p>}
+      </div>
       {isUpdating && (
         <UpdatePost 
             post={post}
@@ -46,14 +48,14 @@ const Post = (props) => {
         />
        
       )}
-      {/* 
+      
       <div className='like'>
       <LikePost 
-      post={post._id}
-      userId={post.usersLiked}
+        handlePosts={handlePosts}
+        post={post}
       />
     </div>
-      */}
+      
     
     </div>
   );

@@ -47,11 +47,14 @@ export const deletePost = async (postId) => {
   })
 }
 
-export const like = async (postId) => {
-  await axios.post(`http://localhost:3000/api/post/${postId}/like`, { 
+export const like = async (postId, likeValue) => {
+  await axios.post(`http://localhost:3000/api/post/${postId}/like`, 
+  {
+    like: likeValue
+  },
+   { 
     headers: {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
-      "like": 1
     },
   })
 }
