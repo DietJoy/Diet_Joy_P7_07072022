@@ -63,11 +63,14 @@ exports.deletePost = async (req, res, next) => {
 
     const user = await User.findOne({_id: req.auth.userId}) // on cherche l'utilisateur qui a posté
 
+    console.log({user})
+    console.log(post)
+
     if ((post.userId !== req.auth.userId) && user.isAdmin === false) { // si le post n'appartient pas à l'utilisateur faisant la requête ou alors si il n'a pas les droits administrateur on renvoie un code 403
         return res.status(401).json({ message: "Vous n'avez pas les droits de suppression sur ce post !" });
     }
 
-    if(post.imageUrl !== undefined){ // si il y a une image, on va la supprimer dans le dossier image
+    if(post.imageUrl !== null){ // si il y a une image, on va la supprimer dans le dossier image
       const filename = post.imageUrl.split('/images/')[1]; // on retrouve le post grâce à son segment /images/
       fs.unlink(`images/${filename}`, (err) => { // fonction unlike du package fs pour supprimer le fichier que l on cherchait
         if (err){
@@ -76,13 +79,15 @@ exports.deletePost = async (req, res, next) => {
       })
     }
 
+    console.log("test")
+
     // suppression du post de la base de données
     await Post.deleteOne({ _id: req.params.id }) // on supprime le post
 
     res.status(200).json({ message: 'Publication supprimée !'})
   }
   catch(err){
-    res.status(500).json({ error })
+    res.status(500).json({ err })
   } 
 };
 

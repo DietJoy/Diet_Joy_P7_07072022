@@ -1,9 +1,14 @@
-import {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
+import {useState, useContext} from 'react';
 import axios from 'axios';
+import globalContext from '../context';
 
 const Login = (props) => {
   const setShowSignup = props.setShowSignup;
 
+  const {setIsAdmin} = useContext(globalContext)
+
+  const navigate = useNavigate() 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -21,10 +26,13 @@ const Login = (props) => {
       const token = res.data.token;
       const userId = res.data.userId;
 
+      setIsAdmin(res.data.isAdmin)
+
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
 
-      window.location = "/accueil"
+      // window.location = "/accueil"
+      navigate("/accueil")
 
     } catch (err) {
       setError(err.response.data?.error || err.message);

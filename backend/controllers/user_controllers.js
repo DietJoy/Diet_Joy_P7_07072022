@@ -36,7 +36,8 @@ exports.signup = async (req, res, next) => { // fonction assynchrone
               return res.status(401).json({ error: 'Mot de passe incorrect !' }); // erreur 401 non authorisée
             }
             res.status(200).json({ // renvoi du token en json
-                userId: user._id, 
+                userId: user._id,
+                isAdmin: user.isAdmin, 
                 token: jwt.sign( // Fonction sign de jsonwebtoken pour encoder le token
                   { userId: user._id }, // stockage de l userId dans le paylod 
                   process.env.TOKEN_SECRET, // Chaine secrète

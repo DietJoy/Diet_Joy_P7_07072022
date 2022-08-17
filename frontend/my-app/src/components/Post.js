@@ -1,13 +1,16 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import {EosIconsContentModified} from '../assets/updateIcone';
 import  LikePost  from '../components/LikePost'
 import UpdatePost from './UpdatePost';
 import DeletePost from './DeletePost';
+import globalContext from '../context';
 
 // Données des posts récupérées dans Publication.js
 
 const Post = (props) => {
   const {post, handlePosts } = props;
+
+  const {isAdmin } = useContext(globalContext)
 
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -17,7 +20,7 @@ const Post = (props) => {
 
       <h3>Posté par : {post.author} 
       
-      {post.userId === localStorage.getItem('userId') && (
+      {(post.userId === localStorage.getItem('userId') || isAdmin === true) && (
           <>
           <div className='icone'
             onClick={() => setIsUpdating((previousIsUpdating) => !previousIsUpdating)}>
