@@ -2,8 +2,6 @@
 Frontend
 
 En cours:
-
-En tant que Administrateur je peux modifier des post
 En tant que Administrateur je peux supprimer des post
 
 
@@ -17,5 +15,6 @@ En tant que Utilisateur je peux voir les post et Mes post de façon antéchronol
 En tant que Utilisateur je peux modifier mon post, mon image et ou mon texte
 En tant que Utilisateur je peux supprimer mes post 
 En tant que Utilisateur je peux liker un post 1 seule fois par post
+En tant que Administrateur je peux modifier des post
 
 A faire:

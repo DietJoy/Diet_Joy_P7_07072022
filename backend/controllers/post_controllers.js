@@ -63,9 +63,6 @@ exports.deletePost = async (req, res, next) => {
 
     const user = await User.findOne({_id: req.auth.userId}) // on cherche l'utilisateur qui a posté
 
-    console.log({user})
-    console.log(post)
-
     if ((post.userId !== req.auth.userId) && user.isAdmin === false) { // si le post n'appartient pas à l'utilisateur faisant la requête ou alors si il n'a pas les droits administrateur on renvoie un code 403
         return res.status(401).json({ message: "Vous n'avez pas les droits de suppression sur ce post !" });
     }
@@ -78,8 +75,6 @@ exports.deletePost = async (req, res, next) => {
         }
       })
     }
-
-    console.log("test")
 
     // suppression du post de la base de données
     await Post.deleteOne({ _id: req.params.id }) // on supprime le post
@@ -94,7 +89,7 @@ exports.deletePost = async (req, res, next) => {
 //Modification du Post avec PUT
 exports.modifyPost =  async (req, res, next) => {
 
-  console.log({reqBody: req.body})
+  console.log({reqBodylol: req.body})
 
   try{
     const post = await Post.findOne({ _id: req.params.id}) // on cherche le post
@@ -109,39 +104,40 @@ exports.modifyPost =  async (req, res, next) => {
         return res.status(403).json({ message: "Vous n'avez pas les droits de modification sur ce post !" });
     }
 
-    const postData = { //autenthification de l'utilisateur et récupération des données initiales sur les likes pour éviter une modif des ces données
-        userId: req.auth.userId,
-        likes: post.likes,
-        usersLiked: post.usersLiked
-    };
-
-    console.log(postData)
+    let previousImage = post.imageUrl // stockage de l'image en prévsion de suppression, null par défaut
 
     if(req.body.text){
-      postData.text = req.body.text
+      post.text = req.body.text
     }
 
     if(!req.body.text && !req.body.deleteImage){ //si le champ text du formdata n'existe pas et qu on ne touche pas à l image, on met un texte vide
-      postData.text = ""
+      post.text = ""
     }
 
     if(req.file){ // Si on upload une nouvelle image lors de la modification, on la prend en compte
-        postData.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //on concatène et on reconstruit l url complète du fichier enregistré
-    }
-      
-   if (req.body.deleteImage === true) { // est ce qu on veut supprimer l image du post
-       postData.imageUrl = null // dans la bdd le champ est null concernant l image
+        previousImage = post.imageUrl // stockage de l ancienne image
+        post.imageUrl = `${req.protocol}://${req.get('host')}/images/${req.file.filename}` //on concatène et on reconstruit l url complète du fichier enregistré
     } 
 
-    const update = await Post.updateOne({ _id: req.params.id }, { ...postData, _id: req.params.id }) //on met à
+      if (req.body.deleteImage === true) { // est ce qu on veut supprimer l image du post
+        previousImage = post.imageUrl // stockage de l ancienne image
+        post.imageUrl = null // dans la bdd le champ est null concernant l image
+      } 
+
+      if(post.imageUrl === null && post.text === ""){ // si le champs image ET le champs texte sont vide supprime le post
+        await Post.deleteOne({ _id: req.params.id })
+        return res.status(201).json({ message: 'Publication supprimée !'})
+      }
+
+    await Post.updateOne({ _id: req.params.id }, post) //on met à jour le post
         
     if(req.file  || req.body.deleteImage === true){ // si la requête contient une image ou alors si le champ deleteImage est true
       console.log("req.file  || req.body.deleteImage === true")
-      fs.unlink("images/" + post.imageUrl.split("/images/")[1], err => { //on supprime l'image qu'on avait initialement publiée du dossier image
+      fs.unlink("images/" + previousImage.split("/images/")[1], err => { //on supprime l'image qu'on avait initialement publiée du dossier image
         if (err) console.log({errfirst: err}) ;
       });
     }
-          
+
     res.status(200).json({ message: 'Post modifié !' });
   }
   catch(err){

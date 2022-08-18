@@ -14,10 +14,10 @@ const App = () => {
    <BrowserRouter>
    <globalContext.Provider value={{isAdmin, setIsAdmin}}>
    <Routes>
-    <Route path="/" element= {<Connexion />} />
-    <Route path="/accueil" element= {<Home />} />
+    <Route path="/auth" element= {<Connexion />} />
+    <Route path="/" element= {<Home />} />
     { /*  path= "*" fonctionne si jamais l'url ne correspont à rien de déclaré au dessus */ }
-    <Route path="*" element= {<Connexion />} />
+    <Route path="*" element= {<Home />} />
    </Routes>
    </globalContext.Provider>
    </BrowserRouter>
