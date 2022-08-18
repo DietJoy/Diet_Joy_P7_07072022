@@ -6,7 +6,7 @@ import globalContext from '../context';
 const Login = (props) => {
   const setShowSignup = props.setShowSignup;
 
-  const {setIsAdmin} = useContext(globalContext)
+  const {setIsAdmin, setIsUserAuthenticated} = useContext(globalContext)
 
   const navigate = useNavigate() 
   const [email, setEmail] = useState('');
@@ -32,7 +32,8 @@ const Login = (props) => {
       localStorage.setItem('userId', userId);
 
       // window.location = "/accueil"
-      navigate("/accueil")
+      setIsUserAuthenticated(true)
+      navigate("/")
 
     } catch (err) {
       setError(err.response.data?.error || err.message);

@@ -58,3 +58,18 @@ export const like = async (postId, likeValue) => {
     },
   })
 }
+
+export const verifToken = async () => {
+
+  const tokenStorage = localStorage.getItem("token"); // on regarde dans le storage
+
+  if(tokenStorage === null){ //si il n y pas de token dans le storage
+    throw new Error("Non Authentifié") // on renvoi une erreur sans faire la requete
+  }
+
+  await axios.get('http://localhost:3000/api/user/verifytoken', {
+    headers: {
+      "Authorization": `Bearer ${localStorage.getItem("token")}`,
+    },
+  })
+}

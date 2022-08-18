@@ -7,6 +7,15 @@ $tertiary:  #4E5166;
 body{
     font-family: 'Lato', sans-serif;
 }
+.notfoundtitle {
+  color: black ;
+}
+
+.notfound{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .deconnexion  {
   display: flex;
