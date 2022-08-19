@@ -2,4 +2,8 @@
 ## Backend  :
 - Placez vous dans le dossier backend puis faites npm install
 - Retirez l'extension .exemple du .env et complétez les variables selon les instructions indiquées. 
-- Executez npm start pour lancer le serveur via nodemon ou node server
+- Executez npm start pour lancer le serveur via nodemon 
+
+## Frontend  :
+- Placez vous dans le dossier frontend puis faites npm install
+- Executez npm start pour lancer le serveur et acceptez le nouveau port recommandé
