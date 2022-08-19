@@ -14,15 +14,32 @@ const Post = (props) => {
 
   const [isUpdating, setIsUpdating] = useState(false);
 
+  const handleDate = (date) => {
+
+    const formatDate = new Date(date);
+  
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: "numeric",
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+  
+    return formatDate.toLocaleString('fr-FR', options);
+  
+  };
+
 
   return (
     <div className="stylePost">
 
-      <h3>Posté par : {post.author} 
+      <h3>{post.author} 
+      <p className='datePost'>{handleDate(post.updatedAt)}</p> 
       
       {(post.userId === localStorage.getItem('userId') || isAdmin === true) && (
           <>
-          <div className='icone'
+          <div className='icone edit'
             onClick={() => setIsUpdating((previousIsUpdating) => !previousIsUpdating)}>
             {/* au clic on peut modifier( isUpdat à true )et au 2eme clic (on repasse isUpdate à false) ca annule la possibilité de modifier */}
             <EosIconsContentModified />
@@ -52,7 +69,7 @@ const Post = (props) => {
        
       )}
       
-      <div className='like'>
+      <div className='like' tabIndex="0">
       <LikePost 
         handlePosts={handlePosts}
         post={post}

@@ -2,8 +2,6 @@
 Frontend
 
 En cours:
-En tant que Administrateur je peux supprimer des post
-
 
 Fait:
 En tant que Utilisateur, je peux m inscrire avec mon adresse mail un mot de passe un nom et un prénom
@@ -16,5 +14,6 @@ En tant que Utilisateur je peux modifier mon post, mon image et ou mon texte
 En tant que Utilisateur je peux supprimer mes post 
 En tant que Utilisateur je peux liker un post 1 seule fois par post
 En tant que Administrateur je peux modifier des post
+En tant que Administrateur je peux supprimer des post
 
 A faire:

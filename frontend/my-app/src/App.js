@@ -1,5 +1,4 @@
 import { useState, useEffect} from 'react';
-import { Navigate } from 'react-router-dom';
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Connexion from './pages/Connexion';
 import Home from './pages/Home';
@@ -14,12 +13,9 @@ const App = () => {
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false)
 
   useEffect(() => {
-    console.log("useEffect APP.js")
     const verifIfAuthenticated = async () => {
       try{
-        console.log("hi")
         await verifToken()
-        console.log("after verif token")
         setIsUserAuthenticated(true)
       }
       catch(err){
@@ -40,6 +36,7 @@ const App = () => {
     {isUserAuthenticated && <Route path="/" element= {<Home />} />}
     { /*  path= "*" fonctionne si jamais l'url ne correspont à rien de déclaré au dessus */ }
     <Route path="*" element={isUserAuthenticated ? <NotFound /> : <Connexion />} />
+    { /*  path= "*" fonctionne si jamais l'url ne correspont à rien de déclaré au dessus */ }
    </Routes>
    </globalContext.Provider>
    </BrowserRouter>

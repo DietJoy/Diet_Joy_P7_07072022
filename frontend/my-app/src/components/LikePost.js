@@ -29,7 +29,7 @@ const handleLike = async () => {
     }
 
     return (
-        <div onClick={handleLike}>
+        <div className='postLike' onClick={handleLike}>
          <UiwLikeO hasUserLiked={hasUserLiked} /> 
          <span>{post.likes}</span> 
         </div>

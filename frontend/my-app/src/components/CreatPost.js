@@ -67,7 +67,7 @@ const resetPost = () => { //fonction qui annulera la rédaction du post
                />  
             </div>
 
-            <div className='PostImage'>
+            <div className='PostImage' tabindex="0">
                 
                 <label htmlFor='file-upload'>
                 <IcSharpImage />

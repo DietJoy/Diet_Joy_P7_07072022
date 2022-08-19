@@ -58,10 +58,8 @@ const UpdatePost = (props) => {
 
   return (
     <div className="updatePost">
-      <textarea
-        value={textUpdate}
-        onChange={(e) => setTextUpdate(e.target.value)}
-      />
+
+   
       <button 
         type="button" 
         className="deleteImage"
@@ -69,11 +67,16 @@ const UpdatePost = (props) => {
         >
         <RiDeleteBin6Fill />
       </button>
-      <div onClick={resetPostInputs}>
+      <textarea
+        value={textUpdate}
+        onChange={(e) => setTextUpdate(e.target.value)}
+      />
+     
+      <div className='resetPostInput' onClick={resetPostInputs}>
         <MaterialSymbolsReplay />
         <input type="file" onChange={handlePicture} ref={fileRef} />
       </div>
-      <div className="buttonContainer">
+      <div className="buttonContainer" tabindex="0">
         <button className="btn" onClick={updateItem}>
           Valider les modifications
         </button>

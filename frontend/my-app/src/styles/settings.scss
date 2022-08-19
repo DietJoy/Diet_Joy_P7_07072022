@@ -63,7 +63,10 @@ img {
 }
 
 .login, .register{
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  
   h2{
     text-align: center;
     color: $primary;
@@ -72,6 +75,7 @@ img {
   form{
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 10px;
   }
 
@@ -82,8 +86,7 @@ ul{
 }
 
 .show-login, .show-signup {
-  background-color: $primary,
-  
+  background-color: $primary;
 }
 
 .publications{
@@ -100,10 +103,18 @@ ul{
 h3 {
 display: flex;
 flex-direction: row; 
-justify-content: space-between;
+align-items: center;
 color: $tertiary;
-border: 3px groove red;
+border: 3px groove  rgba($primary, .5);
 border-radius: 5px 5px 0px 0px;
+padding-inline: 10px;
+font-size: 1.4rem;
+}
+
+.datePost{
+  font-size: 0.8rem;
+  font-style: italic;
+  font-weight: bold;
 }
 
 .icone {
@@ -111,6 +122,15 @@ border-radius: 5px 5px 0px 0px;
     cursor: pointer;
     background-color: $primary;
     transition: 400ms ease-in-out;
+  }
+
+  &.edit{
+    margin-left: auto;
+
+    svg{
+      position: relative;
+       top: 2px; 
+     }
   }
 }
 
@@ -121,12 +141,18 @@ border-radius: 5px 5px 0px 0px;
 .stylePost {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   border-radius: 5px;
   background-color: $secondary;
   gap: 8px;
   margin: 8px;
   max-width: 1000px;
   width: 100%;
+
+  h3 p{
+   margin: 0;
+   padding-left: 3rem;
+  }
 }
 
 .imageEtTexte {
@@ -135,13 +161,22 @@ border-radius: 5px 5px 0px 0px;
   align-items: center;
   height: 100%;
 
+
+  @media screen and (max-width: 700px){
+    flex-direction: column;
+}
+
   .textPost{
-    width: 50%;
+    width: 60%;
     max-height: 100%;
-    text-align: center;
+    text-align: left;
     background-color: lighten($color: $secondary, $amount: 4);
-    padding-bottom: 6px;
-    padding-left: 2px;
+    padding: 10px 5px;
+
+    @media screen and (max-width: 450px){
+     width: 90%;
+  }
+  
   }
 }
 
@@ -169,5 +204,11 @@ border-radius: 5px 5px 0px 0px;
     cursor: pointer;
     transform: scale(1.1);
     transition: 400ms ease-in-out;
+  }
+}
+
+.navigation{
+  ul {
+    margin: 0;
   }
 }

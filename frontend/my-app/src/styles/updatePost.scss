@@ -1,6 +1,50 @@
 .updatePost {
-   
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     padding-left: 4px;
     padding-bottom: 4px;
+
+    textarea {
+        resize: none;
+        @media screen and (max-width: 400px){
+            width: 80%;
+        }
+    }
+
+    .deleteImage{
+        position: absolute;
+        top: -45px;
+        left: 50%;
+        transform: translateX(-50%);
+        height: 30px;
+        width: 30px;
+        display: flex;
+        justify-content: center; 
+        align-items: center;
+        padding: 0;
+        background-color: white;
+
+        &:hover svg{
+            color: $primary;
+        }
+
+        svg{
+            width: 80%;
+            height: 80%;
+        }
+    }
+
+    .resetPostInput{
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .btn{
+        background-color: white;
+    }
 
 }

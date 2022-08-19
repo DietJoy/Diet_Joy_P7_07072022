@@ -25,7 +25,7 @@ const Signup = (props) => {
         'http://localhost:3000/api/user/signup',
         sendData
       );
-      console.log(res.data);
+      setShowSignup(false);
     } catch (err) {
       setError(err.message);
     } 
@@ -64,10 +64,10 @@ const Signup = (props) => {
         <input
           type="password"
           id="password"
-          min="6"
-          max="30"
+          minLength="6"
+          maxLength="30"
           required
-          title="Le mot de passe doit contenir au minimum 1 minuscule"
+          title="Le mot de passe doit contenir au minimum 1 minuscule, 6 caracteres de long minimum et max 30"
           onChange={(e) => setPassword(e.target.value)}
         />
         <input type="submit"className="envoyer"  />
@@ -77,7 +77,7 @@ const Signup = (props) => {
       <p>Vous êtes déjà inscrit ? Veuillez vous connecter</p>
       <button
         type="button"
-        class="show-login"
+        className="show-login"
         onClick={() => setShowSignup(false)}
       >
         Connexion
