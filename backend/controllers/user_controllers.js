@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config()
 
 exports.signup = async (req, res, next) => { // fonction assynchrone 
-    /*console.log(req.body);*/
     try {
       if ( !req.body.email || !req.body.password || !req.body.name || !req.body.firstname ) {
         return res.status(404).json ({ error: 'Veuillez remplir le champ'})
@@ -24,7 +23,6 @@ exports.signup = async (req, res, next) => { // fonction assynchrone
   };
 
   exports.login = (req, res, next) => { 
-    /*console.log(req.body);*/
     User.findOne({ email: req.body.email}) // Méthode findOne trouver le user et pour comparer l adresse mail qui est unique avec l adresse mail de l'utilisateur qui tente de se connecter
     .then(user => {
         if (!user) { // si on ne trouve pas de user
@@ -39,7 +37,10 @@ exports.signup = async (req, res, next) => { // fonction assynchrone
                 userId: user._id,
                 isAdmin: user.isAdmin, 
                 token: jwt.sign( // Fonction sign de jsonwebtoken pour encoder le token
-                  { userId: user._id }, // stockage de l userId dans le paylod 
+                  { 
+                    userId: user._id, 
+                    isAdmin: user.isAdmin
+                  }, // stockage de l userId et de l isAdmin dans le paylod 
                   process.env.TOKEN_SECRET, // Chaine secrète
                   { expiresIn: '12h' }, // expiration du token définie sur 12H
               )

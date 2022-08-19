@@ -89,8 +89,6 @@ exports.deletePost = async (req, res, next) => {
 //Modification du Post avec PUT
 exports.modifyPost =  async (req, res, next) => {
 
-  console.log({reqBodylol: req.body})
-
   try{
     const post = await Post.findOne({ _id: req.params.id}) // on cherche le post
 
@@ -132,7 +130,6 @@ exports.modifyPost =  async (req, res, next) => {
     await Post.updateOne({ _id: req.params.id }, post) //on met à jour le post
         
     if(req.file  || req.body.deleteImage === true){ // si la requête contient une image ou alors si le champ deleteImage est true
-      console.log("req.file  || req.body.deleteImage === true")
       fs.unlink("images/" + previousImage.split("/images/")[1], err => { //on supprime l'image qu'on avait initialement publiée du dossier image
         if (err) console.log({errfirst: err}) ;
       });
@@ -158,9 +155,7 @@ exports.likePost = async (req, res, next) => {
   const tokenUserId = req.auth.userId; // constante d'authentification d'utilisateur valable partout
 
   const post = await Post.findOne({ _id: req.params.id });
-  console.log("🚀 ~ file: post_controllers.js ~ line 150 ~ exports.likePost= ~ post", post)
   const hasUserLiked = post.usersLiked.includes(tokenUserId); // Si l'utlisateur authentifié a liké
-  console.log("🚀 ~ file: post_controllers.js ~ line 152 ~ exports.likePost= ~ hasUserLiked", hasUserLiked)
 
   try {
     switch (req.body.like) {

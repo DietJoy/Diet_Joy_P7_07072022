@@ -10,7 +10,6 @@ const [rangeValue, setRangeValue] = useState(24);
 
 const handlePosts = async () => { // fonction qui récupère le post et le met à jour
     const posts = await getPost()
-    console.log({posts})
     setPosts(posts)
 }
 

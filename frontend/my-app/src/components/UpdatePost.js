@@ -28,7 +28,6 @@ const UpdatePost = (props) => {
   const updateItem = async () => {
     try {
       const data = new FormData();
-      console.log(data)
       if(textUpdate){
         data.append('text', textUpdate);
       }

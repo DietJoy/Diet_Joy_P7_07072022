@@ -61,13 +61,13 @@ const resetPost = () => { //fonction qui annulera la rédaction du post
                <textarea 
                name="text"
                id="text"
-               placeholder='votre texte'
+               placeholder='Ecrivez ici: 🎯'
                onChange={(e) => setPostText (e.target.value) }
                value= {postText}
                />  
             </div>
 
-            <div className='PostImage' tabindex="0">
+            <div className='PostImage' tabIndex="0">
                 
                 <label htmlFor='file-upload'>
                 <IcSharpImage />

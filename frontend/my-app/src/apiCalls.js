@@ -67,9 +67,12 @@ export const verifToken = async () => {
     throw new Error("Non Authentifié") // on renvoi une erreur sans faire la requete
   }
 
-  await axios.get('http://localhost:3000/api/user/verifytoken', {
+  const {data} = await axios.get('http://localhost:3000/api/user/verifytoken', {
     headers: {
       "Authorization": `Bearer ${localStorage.getItem("token")}`,
     },
   })
+  
+
+  return data.isAdmin
 }

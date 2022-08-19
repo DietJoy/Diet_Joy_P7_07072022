@@ -15,16 +15,19 @@ const App = () => {
   useEffect(() => {
     const verifIfAuthenticated = async () => {
       try{
-        await verifToken()
+        const isUserAdmin = await verifToken()
+        console.log({isUserAdmin})
         setIsUserAuthenticated(true)
+        setIsAdmin(isUserAdmin)
       }
       catch(err){
         console.log("verif token failed")
         setIsUserAuthenticated(false)
+        localStorage.clear()
       }
     }
     verifIfAuthenticated()
-  }, []) // UseEffect joué au chargement de la page
+  }, []) // UseEffect joué au chargement de la page permet de vérifier la présence et la validité du token pour donner accès aux routes protégés
 
   const [isAdmin, setIsAdmin] = useState(false)
 

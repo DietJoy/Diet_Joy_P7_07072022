@@ -21,7 +21,6 @@ const Login = (props) => {
         email: email,
         password: password,
       });
-      console.log(res);
 
       const token = res.data.token;
       const userId = res.data.userId;
