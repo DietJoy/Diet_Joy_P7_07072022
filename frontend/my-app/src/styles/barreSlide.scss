@@ -8,11 +8,12 @@ align-items: center;
 
 input {
     background-color:$secondary;
+    display: flex;
     }
   
   input[type=range] {
     -webkit-appearance: none;
-  
+  margin-top:5px ;
     padding: 4px;
     width: 50%;
   }
