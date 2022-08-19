@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 mongoose
   .connect(
-    'mongodb+srv://' + process.env.DB_USER_PASS + '@cluster0.v9ywjaz.mongodb.net/Groupomania',
+    'mongodb+srv://' + process.env.DB_USER_PASS + process.env.DB_CLUSTER + '.mongodb.net/Groupomania', 
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
