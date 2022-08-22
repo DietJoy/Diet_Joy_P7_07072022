@@ -29,8 +29,7 @@ const Login = (props) => {
 
       localStorage.setItem('token', token);
       localStorage.setItem('userId', userId);
-
-      // window.location = "/accueil"
+      
       setIsUserAuthenticated(true)
       navigate("/")
 

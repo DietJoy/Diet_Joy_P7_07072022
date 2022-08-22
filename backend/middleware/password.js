@@ -32,4 +32,4 @@ module.exports = (req, res, next) => {
   }
 };
 
-// TODO: prévoir des messages d'erreurs sur le front en cas de création de mot de passe invalide
+

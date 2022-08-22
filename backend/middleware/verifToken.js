@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken'); // package pour vérifier le token
 require('dotenv').config()
 
-// Middleware qui vérifie le token (pour vérifier le token quand on raffraichit la page et éviter la rupsture de session à l expiration)
+// Middleware qui vérifie le token (pour vérifier le token quand on raffraichit la page et éviter la rupture de session à l expiration)
 module.exports = (req, res, next) => { 
   try{
     const token = req.headers.authorization.split(' ')[1]; // récupération du token

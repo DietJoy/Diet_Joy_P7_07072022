@@ -7,4 +7,4 @@
 ## Frontend  :
 - Placez vous dans le dossier frontend\my-app puis faites npm install
 - Retirez l'extension .exemple du .env
-- Executez npm start pour lancer le serveur et acceptez le nouveau port recommandé
+- Executez npm start pour lancer le serveur 

@@ -13,8 +13,8 @@ const {post, handlePosts} = props
         const hasLiked = post.usersLiked.includes(userId) // On regarde si notre userId est présent dans le tableau usersLiked du post
         setHasUserLiked(hasLiked)
         hasLiked === true  
-            ? setNextVoteValue(0) // si hasLiked est true (c'est qu'il a déjà voté) donc sont prochain vote sur ce post sera a Zero
-            : setNextVoteValue(1) // si hasLiked est false (c'est qu'il a pas encore voté) donc sont prochain vote sur ce post sera a 1
+            ? setNextVoteValue(0) // si hasLiked est true (c'est qu'il a déjà voté) donc son prochain vote sur ce post sera à Zero
+            : setNextVoteValue(1) // si hasLiked est false (c'est qu'il a pas encore voté) donc son prochain vote sur ce post sera à 1
     }, [post])
 
 const handleLike = async () => {
